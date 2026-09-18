@@ -1,342 +1,223 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tesoros del Tiempo | Fundición Artesanal & Reliquias</title>
-    
-    <!-- Tipografías Premium -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS (Configurado para producción estática) -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        obsidian: '#0a0a0a',
-                        ash: '#171717',
-                        copper: '#B87333',
-                        patina: '#6b8e23',
-                        parchment: '#e5e1d8',
-                        gold: '#D4AF37'
-                    },
-                    fontFamily: {
-                        serif: ['"Cormorant Garamond"', 'serif'],
-                        sans: ['"Space Grotesk"', 'sans-serif'],
-                    },
-                    backgroundImage: {
-                        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-                    }
-                }
-            }
-        }
-    </script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0a0a">
+  <meta name="description" content="Tesoros del Tiempo — fundición artesanal, objetos recuperados y memoria convertida en metal.">
+  <title>Tesoros del Tiempo — Historia Fundida</title>
 
-    <!-- CSS Personalizado para efectos táctiles y animaciones -->
-    <style>
-        /* Textura de grano (Ruido analógico) */
-        .noise-overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100vw; height: 100vh;
-            pointer-events: none;
-            z-index: 50;
-            opacity: 0.04;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-        /* Ocultar scrollbar pero permitir scroll */
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #0a0a0a; }
-        ::-webkit-scrollbar-thumb { background: #333; border-radius: 10px; }
-
-        /* Efecto revelado al hacer scroll */
-        .reveal {
-            opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        /* Estampado metálico para botones */
-        .btn-stamped {
-            position: relative;
-            overflow: hidden;
-            border: 1px solid rgba(229, 225, 216, 0.2);
-            transition: all 0.3s ease;
-        }
-        .btn-stamped:hover {
-            border-color: #B87333;
-            color: #B87333;
-            box-shadow: inset 0 0 20px rgba(184, 115, 51, 0.1);
-        }
-
-        /* Blend mode para cabecera interactiva */
-        .mix-blend-nav { mix-blend-mode: difference; color: #e5e1d8; }
-    </style>
+  <link rel="stylesheet" href="styles.css">
+  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body class="bg-obsidian text-parchment font-sans antialiased overflow-x-hidden selection:bg-copper selection:text-obsidian">
 
-    <div class="noise-overlay"></div>
+<body>
+  <div class="noise" aria-hidden="true"></div>
 
-    <!-- NAVEGACIÓN STICKY -->
-    <nav class="fixed w-full z-40 top-0 px-6 py-6 flex justify-between items-center mix-blend-nav">
-        <div class="text-sm tracking-[0.2em] uppercase font-semibold">Tesoros del Tiempo</div>
-        <div class="hidden md:flex gap-8 text-xs tracking-widest uppercase">
-            <a href="#manifiesto" class="hover:text-copper transition-colors">Manifiesto</a>
-            <a href="#drop-actual" class="hover:text-copper transition-colors">Drop #004</a>
-            <a href="#archivo" class="hover:text-copper transition-colors">Archivo</a>
-        </div>
-        <a href="#drop-actual" class="btn-stamped px-5 py-2 text-xs tracking-widest uppercase">
-            Acceder al Drop
-        </a>
+  <div class="loader" id="loader" aria-hidden="true">
+    <div class="loader__seal">TT</div>
+    <p>Preparando archivo <span>04</span></p>
+  </div>
+
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Tesoros del Tiempo, inicio">
+      <span class="brand__mark">TT</span>
+      <span class="brand__name">Tesoros del Tiempo</span>
+    </a>
+
+    <nav class="nav" aria-label="Navegación principal">
+      <a href="#manifiesto">Manifiesto</a>
+      <a href="#drop">Drop #004</a>
+      <a href="#archivo">Archivo</a>
     </nav>
 
-    <!-- HERO SECTION (Editorial) -->
-    <header class="relative w-full h-screen flex flex-col justify-end pb-24 px-6 md:px-16 overflow-hidden">
-        <!-- Imagen de fondo (Idealmente un gif sutil de metal fundiéndose) -->
-        <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&q=80&w=2000" alt="Metal fundido" class="w-full h-full object-cover opacity-40 mix-blend-luminosity scale-105 animate-[pulse_10s_ease-in-out_infinite]">
-            <div class="absolute inset-0 bg-gradient-to-t from-obsidian via-obsidian/80 to-transparent"></div>
-        </div>
+    <a class="button button--small" href="#gremio">El Gremio</a>
+  </header>
 
-        <div class="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-4 items-end">
-            <div class="md:col-span-8 reveal">
-                <p class="text-copper tracking-[0.3em] text-xs uppercase mb-4">Arte efímero, metal eterno</p>
-                <h1 class="font-serif text-6xl md:text-8xl lg:text-[10rem] leading-[0.85] font-normal tracking-tight">
-                    Historia<br>Fundida.
-                </h1>
-            </div>
-            <div class="md:col-span-4 reveal" style="transition-delay: 0.2s;">
-                <p class="font-sans text-sm md:text-base leading-relaxed text-parchment/70 border-l border-copper/30 pl-6">
-                    Chatarra rescatada de la tierra y del olvido, purificada a 1085°C y vertida a mano. Tiradas únicas. Una vez el molde se enfría, el lote desaparece para siempre.
-                </p>
-            </div>
-        </div>
-    </header>
+  <main>
+    <section class="hero section">
+      <div class="hero__image" aria-hidden="true"></div>
+      <div class="hero__veil" aria-hidden="true"></div>
 
-    <!-- COUNTDOWN SECTION (Minimalista) -->
-    <section class="border-y border-white/5 py-8 px-6 md:px-16 flex flex-col md:flex-row justify-between items-center bg-ash reveal">
-        <div class="flex items-center gap-4 mb-6 md:mb-0">
-            <div class="w-2 h-2 rounded-full bg-red-500 animate-ping"></div>
-            <span class="text-xs tracking-[0.2em] uppercase text-white/60">Drop #004 Activo en:</span>
+      <div class="hero__content reveal">
+        <p class="eyebrow">Fundición artesanal · Levante · Archivo</p>
+        <h1>Historia<br><em>Fundida.</em></h1>
+        <div class="hero__footer">
+          <p class="hero__intro">
+            Materia recuperada, purificada y transformada a mano.
+            Cada pieza conserva la evidencia de lo que fue.
+          </p>
+          <a class="text-link" href="#manifiesto">Entrar en el manifiesto <span>↘</span></a>
         </div>
-        <div class="flex gap-8 font-serif text-4xl md:text-5xl text-copper" id="countdown">
-            <div class="flex flex-col items-center">
-                <span id="days">02</span>
-                <span class="font-sans text-[10px] tracking-widest uppercase text-white/40 mt-1">Días</span>
-            </div>
-            <span>:</span>
-            <div class="flex flex-col items-center">
-                <span id="hours">14</span>
-                <span class="font-sans text-[10px] tracking-widest uppercase text-white/40 mt-1">Horas</span>
-            </div>
-            <span>:</span>
-            <div class="flex flex-col items-center">
-                <span id="minutes">45</span>
-                <span class="font-sans text-[10px] tracking-widest uppercase text-white/40 mt-1">Min</span>
-            </div>
-            <span>:</span>
-            <div class="flex flex-col items-center">
-                <span id="seconds">00</span>
-                <span class="font-sans text-[10px] tracking-widest uppercase text-white/40 mt-1">Seg</span>
-            </div>
-        </div>
+      </div>
     </section>
 
-    <!-- DROP ACTUAL (El Escaparate) -->
-    <section id="drop-actual" class="py-32 px-6 md:px-16 max-w-[1600px] mx-auto">
-        <div class="mb-20 flex flex-col md:flex-row justify-between items-end reveal">
+    <section class="ticker" aria-label="Principios del proceso">
+      <div class="ticker__track">
+        <span>RECUPERAR</span><i>✦</i><span>PURIFICAR</span><i>✦</i><span>FUNDIR</span><i>✦</i><span>ESTAMPAR</span><i>✦</i><span>CONSERVAR</span><i>✦</i>
+        <span>RECUPERAR</span><i>✦</i><span>PURIFICAR</span><i>✦</i><span>FUNDIR</span><i>✦</i><span>ESTAMPAR</span><i>✦</i><span>CONSERVAR</span><i>✦</i>
+      </div>
+    </section>
+
+    <section class="countdown-bar reveal" data-drop-date="2026-09-25T20:00:00+02:00">
+      <div>
+        <span class="status-dot"></span>
+        <span class="eyebrow">Drop #004 · apertura</span>
+      </div>
+      <div class="countdown" id="countdown" aria-live="polite">
+        <div><strong id="days">00</strong><small>Días</small></div>
+        <b>:</b>
+        <div><strong id="hours">00</strong><small>Horas</small></div>
+        <b>:</b>
+        <div><strong id="minutes">00</strong><small>Min</small></div>
+        <b>:</b>
+        <div><strong id="seconds">00</strong><small>Seg</small></div>
+      </div>
+    </section>
+
+    <section class="section section--wide" id="drop">
+      <div class="section-heading reveal">
+        <div>
+          <p class="eyebrow">La Serie Vinalopó</p>
+          <h2>Drop <em>#004</em></h2>
+        </div>
+        <p class="section-heading__meta">
+          15 unidades<br>
+          <span>Restos agrícolas · cableado industrial · 1980–2005*</span>
+        </p>
+      </div>
+
+      <div class="product-grid">
+        <article class="product-card reveal">
+          <button class="product-visual origin-toggle" type="button" aria-pressed="false">
+            <span class="product-label">Cobre · 01/15</span>
+            <img class="product-image product-image--final" src="https://images.unsplash.com/photo-1621360841013-c76831f1db2b?auto=format&fit=crop&q=85&w=1000" alt="Lingote de cobre artesanal">
+            <img class="product-image product-image--origin" src="https://images.unsplash.com/photo-1530982011887-3cc11cc85693?auto=format&fit=crop&q=85&w=1000" alt="Materia metálica recuperada">
+            <span class="origin-hint">Toca para revelar origen</span>
+            <span class="origin-caption">Ver origen del metal</span>
+          </button>
+          <div class="product-info">
             <div>
-                <h2 class="font-serif text-5xl md:text-7xl">Drop #004</h2>
-                <p class="text-copper tracking-[0.2em] text-sm uppercase mt-4">La Serie Vinalopó • 15 Unidades</p>
+              <h3>Lingote Agrícola 100g</h3>
+              <p>Vertido a mano · sellado · numerado</p>
             </div>
-            <div class="text-right mt-6 md:mt-0 font-sans text-sm text-parchment/60">
-                <p>Origen: Restos agrícolas y cableado industrial (1980-2005).</p>
-                <p>Coordenadas: 38°16'01"N 0°41'54"W</p>
+            <div class="product-buy">
+              <strong>35,00 €</strong>
+              <button class="text-button" type="button">Añadir</button>
             </div>
-        </div>
+          </div>
+        </article>
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
-            <!-- PRODUCTO 1 (Con efecto flip/hover para mostrar el origen) -->
-            <article class="group cursor-pointer reveal">
-                <div class="relative aspect-[3/4] overflow-hidden bg-ash">
-                    <!-- Etiqueta superior -->
-                    <div class="absolute top-4 left-4 z-20 bg-obsidian/90 px-3 py-1 border border-copper/30 font-sans text-[10px] tracking-widest uppercase">
-                        Cobre Puro • 01/15
-                    </div>
-                    
-                    <!-- Imagen Final (Lingote) -->
-                    <img src="https://images.unsplash.com/photo-1621360841013-c76831f1db2b?auto=format&fit=crop&q=80&w=800" alt="Lingote de cobre" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 group-hover:opacity-0 z-10">
-                    
-                    <!-- Imagen Origen (Chatarra - se ve al hacer hover) -->
-                    <img src="https://images.unsplash.com/photo-1530982011887-3cc11cc85693?auto=format&fit=crop&q=80&w=800" alt="Chatarra original" class="absolute inset-0 w-full h-full object-cover scale-105 transition-transform duration-700 group-hover:scale-100 grayscale opacity-50">
-                    
-                    <!-- Texto oculto al hover -->
-                    <div class="absolute inset-0 z-10 flex items-center justify-center bg-obsidian/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                        <span class="font-serif italic text-2xl text-copper">Ver origen del metal</span>
-                    </div>
-                </div>
-                
-                <div class="mt-6 flex justify-between items-start border-t border-white/10 pt-6">
-                    <div>
-                        <h3 class="font-serif text-2xl">Lingote Agrícola 100g</h3>
-                        <div class="flex gap-3 mt-2 text-xs tracking-widest text-parchment/50 font-sans uppercase">
-                            <span>Vertido a mano</span>
-                            <span>•</span>
-                            <span>Sellado</span>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <span class="block font-sans text-xl">35.00 €</span>
-                        <button class="mt-2 text-xs uppercase tracking-widest text-copper hover:text-white transition-colors">Añadir</button>
-                    </div>
-                </div>
-            </article>
+        <article class="product-card reveal">
+          <div class="product-visual">
+            <span class="product-label">Única pieza · Numismática</span>
+            <img class="product-image" src="https://images.unsplash.com/photo-1628151015968-3a4429e9ef04?auto=format&fit=crop&q=85&w=1000" alt="Moneda antigua">
+          </div>
+          <div class="product-info">
+            <div>
+              <h3>Céntimo Alfonso XII</h3>
+              <p>1878 · restauración · archivo</p>
+            </div>
+            <div class="product-buy">
+              <strong>42,00 €</strong>
+              <button class="text-button" type="button">Añadir</button>
+            </div>
+          </div>
+        </article>
 
-            <!-- PRODUCTO 2 -->
-            <article class="group cursor-pointer reveal" style="transition-delay: 0.1s;">
-                <div class="relative aspect-[3/4] overflow-hidden bg-ash">
-                    <div class="absolute top-4 left-4 z-20 bg-obsidian/90 px-3 py-1 border border-white/10 font-sans text-[10px] tracking-widest uppercase">
-                        Única Pieza • Numismática
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1628151015968-3a4429e9ef04?auto=format&fit=crop&q=80&w=800" alt="Moneda antigua" class="absolute inset-0 w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 z-10">
-                </div>
-                <div class="mt-6 flex justify-between items-start border-t border-white/10 pt-6">
-                    <div>
-                        <h3 class="font-serif text-2xl">Céntimo Alfonso XII (1878)</h3>
-                        <div class="flex gap-3 mt-2 text-xs tracking-widest text-parchment/50 font-sans uppercase">
-                            <span>Restauración química</span>
-                            <span>•</span>
-                            <span>Con historia</span>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <span class="block font-sans text-xl">42.00 €</span>
-                        <button class="mt-2 text-xs uppercase tracking-widest text-copper hover:text-white transition-colors">Añadir</button>
-                    </div>
-                </div>
-            </article>
-
-            <!-- PRODUCTO 3 -->
-            <article class="group cursor-pointer reveal" style="transition-delay: 0.2s;">
-                <div class="relative aspect-[3/4] overflow-hidden bg-ash border border-gold/30">
-                    <div class="absolute top-4 left-4 z-20 bg-gold text-obsidian px-3 py-1 font-sans text-[10px] tracking-widest uppercase font-bold">
-                        Caja Cápsula • VIP
-                    </div>
-                    <img src="https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?auto=format&fit=crop&q=80&w=800" alt="Caja tesoro" class="absolute inset-0 w-full h-full object-cover transition-opacity duration-700 group-hover:opacity-40 z-10 grayscale">
-                    <div class="absolute inset-0 z-0 bg-gradient-to-tr from-obsidian to-gold/20"></div>
-                </div>
-                <div class="mt-6 flex justify-between items-start border-t border-white/10 pt-6">
-                    <div>
-                        <h3 class="font-serif text-2xl">Kit "Tierras de Levante"</h3>
-                        <div class="flex gap-3 mt-2 text-xs tracking-widest text-parchment/50 font-sans uppercase">
-                            <span>Lingote + 3 Monedas</span>
-                            <span>•</span>
-                            <span>Lacre</span>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <span class="block font-sans text-xl">115.00 €</span>
-                        <button class="mt-2 text-xs uppercase tracking-widest text-gold hover:text-white transition-colors">Reservar</button>
-                    </div>
-                </div>
-            </article>
-        </div>
+        <article class="product-card product-card--featured reveal">
+          <div class="product-visual">
+            <span class="product-label product-label--gold">Caja cápsula · VIP</span>
+            <img class="product-image" src="https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?auto=format&fit=crop&q=85&w=1000" alt="Caja de colección">
+          </div>
+          <div class="product-info">
+            <div>
+              <h3>Tierras de Levante</h3>
+              <p>Lingote + 3 monedas · lacre</p>
+            </div>
+            <div class="product-buy">
+              <strong>115,00 €</strong>
+              <button class="text-button text-button--gold" type="button">Reservar</button>
+            </div>
+          </div>
+        </article>
+      </div>
+      <p class="legal-note">* Datos de procedencia mostrados según el material actual del proyecto. Verificar antes de publicación comercial.</p>
     </section>
 
-    <!-- MANIFIESTO Y PROCESO (Storytelling) -->
-    <section id="manifiesto" class="py-32 bg-ash border-y border-white/5 relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-1/2 h-full opacity-10 font-serif text-[20rem] leading-none text-copper select-none pointer-events-none -translate-y-20">Cu</div>
-        
-        <div class="max-w-[1600px] mx-auto px-6 md:px-16 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <div class="order-2 lg:order-1 grid grid-cols-2 gap-4 reveal">
-                <img src="https://images.unsplash.com/photo-1535406208535-14dddc66e511?auto=format&fit=crop&q=80&w=600" alt="Detector de metales" class="w-full aspect-[4/5] object-cover mt-12 grayscale opacity-80 hover:grayscale-0 transition-all duration-500">
-                <img src="https://images.unsplash.com/photo-1590502593747-42a996111139?auto=format&fit=crop&q=80&w=600" alt="Fuego fundición" class="w-full aspect-[4/5] object-cover grayscale opacity-80 hover:grayscale-0 transition-all duration-500">
-            </div>
-            <div class="order-1 lg:order-2 reveal">
-                <h2 class="font-serif text-5xl md:text-6xl mb-8">No vendemos metal.<br><span class="text-copper italic">Vendemos tiempo.</span></h2>
-                <div class="font-sans text-parchment/70 leading-relaxed space-y-6 max-w-lg text-sm md:text-base">
-                    <p>Cada lingote que sale de este taller empezó como un desecho. Una tubería rota, un cable pelado, una pieza de tractor abandonada en los campos del Vinalopó.</p>
-                    <p>Ese es nuestro <strong>Proof of Work</strong>. Horas de campo bajo el sol con el detector. Horas de limpieza. Y finalmente, el fuego purificador del crisol de grafito a más de mil grados.</p>
-                    <p>Vertimos a mano. Estampamos a mano. Cada imperfección, cada línea de enfriamiento en el lingote es una huella digital única. Es anti-producción en masa.</p>
-                </div>
-                
-                <div class="mt-12 pl-6 border-l-2 border-copper">
-                    <p class="font-serif italic text-xl">"Convirtiendo la entropía y el óxido en valor tangible."</p>
-                </div>
-            </div>
-        </div>
+    <section class="stats section reveal" id="archivo">
+      <div><strong>15</strong><span>unidades<br>por lote</span></div>
+      <div><strong>1085°</strong><span>referencia de<br>fundición*</span></div>
+      <div><strong>01</strong><span>serie<br>Vinalopó</span></div>
+      <div><strong>04</strong><span>drop<br>actual</span></div>
     </section>
 
-    <!-- EL GREMIO (Newsletter para los Drops) -->
-    <section class="py-32 px-6 text-center reveal max-w-3xl mx-auto">
-        <i data-lucide="key" class="w-8 h-8 text-copper mx-auto mb-6"></i>
-        <h2 class="font-serif text-4xl md:text-6xl mb-4">Únete al Gremio</h2>
-        <p class="font-sans text-parchment/60 mb-10 text-sm md:text-base">Los lotes se agotan en horas. Los miembros de nuestra lista privada reciben la contraseña de acceso a los Drops 24h antes de la apertura pública.</p>
-        
-        <form class="flex flex-col sm:flex-row gap-4 justify-center max-w-md mx-auto">
-            <input type="email" placeholder="Tu correo electrónico" class="bg-transparent border-b border-white/20 px-4 py-3 font-sans text-sm outline-none focus:border-copper transition-colors w-full placeholder:text-white/30 text-center sm:text-left">
-            <button type="submit" class="btn-stamped bg-white/5 px-8 py-3 font-sans text-xs tracking-widest uppercase whitespace-nowrap">Solicitar Acceso</button>
-        </form>
-        <p class="text-[10px] text-white/30 tracking-widest uppercase mt-6">Cero Spam. Solo avisos de fundición.</p>
+    <section class="manifesto" id="manifiesto">
+      <div class="manifesto__number" aria-hidden="true">01</div>
+      <div class="manifesto__media reveal">
+        <img src="https://images.unsplash.com/photo-1535406208535-14dddc66e511?auto=format&fit=crop&q=85&w=1000" alt="Trabajo de campo con detector de metales">
+      </div>
+      <div class="manifesto__copy reveal">
+        <p class="eyebrow">Acto I · La tierra</p>
+        <h2>Antes de ser metal,<br><em>fue otra cosa.</em></h2>
+        <p>Todo empieza antes del fuego. En un campo, en un taller, en una caja olvidada. Bajo una capa de tierra que no distingue entre lo que fue útil y lo que dejó de serlo.</p>
+        <p>Buscamos fragmentos. No buscamos perfección. Buscamos materia con memoria.</p>
+      </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer class="border-t border-white/10 bg-obsidian py-12 px-6 md:px-16 flex flex-col md:flex-row justify-between items-center gap-6 font-sans text-xs text-parchment/40 tracking-widest uppercase">
-        <p>© 2026 Tesoros del Tiempo</p>
-        <div class="flex gap-6">
-            <a href="#" class="hover:text-copper transition-colors">Términos Legales</a>
-            <a href="#" class="hover:text-copper transition-colors">Instagram</a>
-            <a href="#" class="hover:text-copper transition-colors">Contacto</a>
-        </div>
-        <p>Forjado en Elche, España.</p>
-    </footer>
+    <section class="manifesto manifesto--reverse">
+      <div class="manifesto__number" aria-hidden="true">02</div>
+      <div class="manifesto__media reveal">
+        <img src="https://images.unsplash.com/photo-1590502593747-42a996111139?auto=format&fit=crop&q=85&w=1000" alt="Fuego y proceso de fundición">
+      </div>
+      <div class="manifesto__copy reveal">
+        <p class="eyebrow">Acto II · El fuego</p>
+        <h2>El fuego no borra la historia.<br><em>La concentra.</em></h2>
+        <p>El metal entra en el crisol sin prometer nada. El calor elimina algunas cosas y revela otras.</p>
+        <p>La fundición no es un borrado. Es una concentración. Cada vertido conserva marcas de su recorrido: vetas, densidades, líneas de enfriamiento e imperfecciones.</p>
+      </div>
+    </section>
 
-    <!-- Scripts de interactividad pura Vanilla JS -->
-    <script>
-        // 1. Contador Inverso Básico (Lógica visual)
-        function updateCountdown() {
-            const now = new Date();
-            // Drop para el viernes (ejemplo)
-            const target = new Date(now);
-            target.setDate(now.getDate() + (5 - now.getDay() + 7) % 7);
-            target.setHours(20, 0, 0, 0);
+    <section class="manifesto manifesto--archive">
+      <div class="manifesto__number" aria-hidden="true">03</div>
+      <div class="manifesto__copy manifesto__copy--center reveal">
+        <p class="eyebrow">Acto III · El archivo</p>
+        <h2>Convertir materia olvidada<br>en <em>memoria tangible.</em></h2>
+        <blockquote>“No vendemos metal.<br>Vendemos tiempo.”</blockquote>
+        <p>Después del fuego queda un objeto. Lo numeramos. Lo sellamos. Lo fechamos. Y lo incorporamos al archivo.</p>
+      </div>
+    </section>
 
-            const diff = target - now;
-            if (diff > 0) {
-                document.getElementById('days').innerText = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
-                document.getElementById('hours').innerText = String(Math.floor((diff / (1000 * 60 * 60)) % 24)).padStart(2, '0');
-                document.getElementById('minutes').innerText = String(Math.floor((diff / 1000 / 60) % 60)).padStart(2, '0');
-                document.getElementById('seconds').innerText = String(Math.floor((diff / 1000) % 60)).padStart(2, '0');
-            }
-        }
-        setInterval(updateCountdown, 1000);
-        updateCountdown();
+    <section class="guild section reveal" id="gremio">
+      <div class="guild__seal">TT</div>
+      <p class="eyebrow">Acceso prioritario restringido</p>
+      <h2>El Gremio</h2>
+      <p>Los miembros reciben el aviso de los nuevos lotes antes de su apertura pública. Sin ruido. Solo cuando hay algo que merece ser contado.</p>
+      <form class="guild-form" id="guild-form">
+        <label class="sr-only" for="email">Correo electrónico</label>
+        <input id="email" name="email" type="email" placeholder="Tu correo electrónico" autocomplete="email" required>
+        <button class="button" type="submit">Solicitar acceso</button>
+      </form>
+      <small>Cero spam · solo avisos de fundición</small>
+      <p class="form-message" id="form-message" role="status"></p>
+    </section>
+  </main>
 
-        // 2. Intersection Observer para animaciones "Reveal" al hacer scroll
-        const revealElements = document.querySelectorAll('.reveal');
-        
-        const revealObserver = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('active');
-                    observer.unobserve(entry.target); // Solo animar la primera vez
-                }
-            });
-        }, {
-            root: null,
-            threshold: 0.15, // Se activa cuando el 15% del elemento es visible
-            rootMargin: "0px 0px -50px 0px"
-        });
+  <footer class="footer">
+    <span>© 2026 Tesoros del Tiempo</span>
+    <div>
+      <a href="#">Términos</a>
+      <a href="#">Privacidad</a>
+      <a href="#">Instagram</a>
+      <a href="#">Contacto</a>
+    </div>
+    <span>Forjado en Elche, España.</span>
+  </footer>
 
-        revealElements.forEach(el => revealObserver.observe(el));
-    </script>
+  <script src="script.js"></script>
 </body>
 </html>

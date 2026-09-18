@@ -1,2 +1,2 @@
 # tesorosdeltiempo
-Tesroros del tiempo
+Tesoros del tiempo
