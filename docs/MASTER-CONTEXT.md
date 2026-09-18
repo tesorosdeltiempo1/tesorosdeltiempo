@@ -556,3 +556,7 @@ Ese es el puente entre historia, producto y conversión.
 10. Analítica.
 
 Hasta resolverlos, la web debe considerarse **prototipo avanzado / preproducción**, no e-commerce listo para cobrar.
+
+git add .
+git commit -m "feat: nueva iteracion visual"
+git push
