@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es" class="scroll-smooth">
+<html lang="es" class="no-js">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,16 +7,22 @@
   <meta name="description" content="Tesoros del Tiempo — fundición artesanal, objetos recuperados y memoria convertida en metal.">
   <title>Tesoros del Tiempo — Historia Fundida</title>
 
+  <script>
+    document.documentElement.classList.replace("no-js", "js");
+    try { if (sessionStorage.getItem("tt-loader")) document.documentElement.classList.add("loader-seen"); } catch (e) {}
+  </script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
 
+  <link rel="stylesheet" href="base.css">
   <link rel="stylesheet" href="styles.css">
-  <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
-  <div class="noise" aria-hidden="true"></div>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+  <div class="grain" aria-hidden="true"></div>
 
   <div class="loader" id="loader" aria-hidden="true">
     <div class="loader__seal">TT</div>
@@ -35,12 +41,14 @@
       <a href="#archivo">Archivo</a>
     </nav>
 
-    <a class="button button--small" href="#gremio">El Gremio</a>
+    <div class="header-actions">
+      <a class="button button--small" href="#gremio">El Gremio</a>
+    </div>
   </header>
 
-  <main>
+  <main id="main">
     <section class="hero section">
-      <div class="hero__image" aria-hidden="true"></div>
+      <div class="hero__image" data-parallax="0.06" aria-hidden="true"></div>
       <div class="hero__veil" aria-hidden="true"></div>
 
       <div class="hero__content reveal">
@@ -58,8 +66,8 @@
 
     <section class="ticker" aria-label="Principios del proceso">
       <div class="ticker__track">
-        <span>RECUPERAR</span><i>✦</i><span>PURIFICAR</span><i>✦</i><span>FUNDIR</span><i>✦</i><span>ESTAMPAR</span><i>✦</i><span>CONSERVAR</span><i>✦</i>
-        <span>RECUPERAR</span><i>✦</i><span>PURIFICAR</span><i>✦</i><span>FUNDIR</span><i>✦</i><span>ESTAMPAR</span><i>✦</i><span>CONSERVAR</span><i>✦</i>
+        <div class="ticker__group"><span>RECUPERAR</span><i aria-hidden="true">✦</i><span>PURIFICAR</span><i aria-hidden="true">✦</i><span>FUNDIR</span><i aria-hidden="true">✦</i><span>ESTAMPAR</span><i aria-hidden="true">✦</i><span>CONSERVAR</span><i aria-hidden="true">✦</i></div>
+        <div class="ticker__group" aria-hidden="true"><span>RECUPERAR</span><i aria-hidden="true">✦</i><span>PURIFICAR</span><i aria-hidden="true">✦</i><span>FUNDIR</span><i aria-hidden="true">✦</i><span>ESTAMPAR</span><i aria-hidden="true">✦</i><span>CONSERVAR</span><i aria-hidden="true">✦</i></div>
       </div>
     </section>
 
@@ -68,7 +76,7 @@
         <span class="status-dot"></span>
         <span class="eyebrow">Drop #004 · apertura</span>
       </div>
-      <div class="countdown" id="countdown" aria-live="polite">
+      <div class="countdown" id="countdown" role="timer" aria-label="Cuenta atrás para la apertura del Drop #004">
         <div><strong id="days">00</strong><small>Días</small></div>
         <b>:</b>
         <div><strong id="hours">00</strong><small>Horas</small></div>
@@ -95,8 +103,8 @@
         <article class="product-card reveal">
           <button class="product-visual origin-toggle" type="button" aria-pressed="false">
             <span class="product-label">Cobre · 01/15</span>
-            <img class="product-image product-image--final" src="https://images.unsplash.com/photo-1621360841013-c76831f1db2b?auto=format&fit=crop&q=85&w=1000" alt="Lingote de cobre artesanal">
-            <img class="product-image product-image--origin" src="https://images.unsplash.com/photo-1530982011887-3cc11cc85693?auto=format&fit=crop&q=85&w=1000" alt="Materia metálica recuperada">
+            <img loading="lazy" decoding="async" class="product-image product-image--final" src="https://images.unsplash.com/photo-1621360841013-c76831f1db2b?auto=format&fit=crop&q=85&w=1000" alt="Lingote de cobre artesanal">
+            <img loading="lazy" decoding="async" class="product-image product-image--origin" src="https://images.unsplash.com/photo-1530982011887-3cc11cc85693?auto=format&fit=crop&q=85&w=1000" alt="Materia metálica recuperada">
             <span class="origin-hint">Toca para revelar origen</span>
             <span class="origin-caption">Ver origen del metal</span>
           </button>
@@ -107,7 +115,7 @@
             </div>
             <div class="product-buy">
               <strong>35,00 €</strong>
-              <button class="text-button" type="button">Añadir</button>
+              <button class="text-button" type="button" aria-label="Añadir Lingote Agrícola 100g">Añadir</button>
             </div>
           </div>
         </article>
@@ -115,7 +123,7 @@
         <article class="product-card reveal">
           <div class="product-visual">
             <span class="product-label">Única pieza · Numismática</span>
-            <img class="product-image" src="https://images.unsplash.com/photo-1628151015968-3a4429e9ef04?auto=format&fit=crop&q=85&w=1000" alt="Moneda antigua">
+            <img loading="lazy" decoding="async" class="product-image" src="https://images.unsplash.com/photo-1628151015968-3a4429e9ef04?auto=format&fit=crop&q=85&w=1000" alt="Moneda antigua">
           </div>
           <div class="product-info">
             <div>
@@ -124,7 +132,7 @@
             </div>
             <div class="product-buy">
               <strong>42,00 €</strong>
-              <button class="text-button" type="button">Añadir</button>
+              <button class="text-button" type="button" aria-label="Añadir Céntimo Alfonso XII">Añadir</button>
             </div>
           </div>
         </article>
@@ -132,7 +140,7 @@
         <article class="product-card product-card--featured reveal">
           <div class="product-visual">
             <span class="product-label product-label--gold">Caja cápsula · VIP</span>
-            <img class="product-image" src="https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?auto=format&fit=crop&q=85&w=1000" alt="Caja de colección">
+            <img loading="lazy" decoding="async" class="product-image" src="https://images.unsplash.com/photo-1605806616949-1e87b487cb2a?auto=format&fit=crop&q=85&w=1000" alt="Caja de colección">
           </div>
           <div class="product-info">
             <div>
@@ -141,7 +149,7 @@
             </div>
             <div class="product-buy">
               <strong>115,00 €</strong>
-              <a class="text-button text-button--gold" href="producto.html">Reservar</a>
+              <a class="text-button text-button--gold" href="producto.html" aria-label="Reservar Tierras de Levante">Reservar</a>
             </div>
           </div>
         </article>
@@ -159,7 +167,7 @@
     <section class="manifesto" id="manifiesto">
       <div class="manifesto__number" aria-hidden="true">01</div>
       <div class="manifesto__media reveal">
-        <img src="https://images.unsplash.com/photo-1535406208535-14dddc66e511?auto=format&fit=crop&q=85&w=1000" alt="Trabajo de campo con detector de metales">
+        <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1535406208535-14dddc66e511?auto=format&fit=crop&q=85&w=1000" alt="Trabajo de campo con detector de metales">
       </div>
       <div class="manifesto__copy reveal">
         <p class="eyebrow">Acto I · La tierra</p>
@@ -172,7 +180,7 @@
     <section class="manifesto manifesto--reverse">
       <div class="manifesto__number" aria-hidden="true">02</div>
       <div class="manifesto__media reveal">
-        <img src="https://images.unsplash.com/photo-1590502593747-42a996111139?auto=format&fit=crop&q=85&w=1000" alt="Fuego y proceso de fundición">
+        <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1590502593747-42a996111139?auto=format&fit=crop&q=85&w=1000" alt="Fuego y proceso de fundición">
       </div>
       <div class="manifesto__copy reveal">
         <p class="eyebrow">Acto II · El fuego</p>
@@ -218,6 +226,7 @@
     <span>Forjado en Elche, España.</span>
   </footer>
 
+  <script src="base.js"></script>
   <script src="script.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="es" class="no-js">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -7,50 +7,67 @@
   <meta name="description" content="Tesoros del Tiempo — ficha editorial de una peseta de Juan Carlos I, 1988.">
   <title>1 Peseta · Juan Carlos I · 1988 — Tesoros del Tiempo</title>
 
+  <script>document.documentElement.classList.replace("no-js", "js");</script>
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
 
+  <link rel="stylesheet" href="base.css">
   <link rel="stylesheet" href="producto.css">
 </head>
 
 <body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
   <div class="grain" aria-hidden="true"></div>
 
   <header class="site-header">
-    <a class="brand" href="index.html" aria-label="Tesoros del Tiempo">
-      <span class="brand-mark">TT</span>
-      <span>Tesoros del Tiempo</span>
+    <a class="brand" href="index.html" aria-label="Tesoros del Tiempo, inicio">
+      <span class="brand__mark">TT</span>
+      <span class="brand__name">Tesoros del Tiempo</span>
     </a>
 
-    <nav class="site-nav" aria-label="Navegación principal">
-      <a href="index.html#drops">Lotes</a>
+    <nav class="nav" aria-label="Navegación principal">
       <a href="index.html#manifiesto">Manifiesto</a>
-      <a href="index.html#gremio">El Gremio</a>
+      <a href="index.html#drop">Drop #004</a>
+      <a href="index.html#archivo">Archivo</a>
     </nav>
 
-    <a class="header-link" href="index.html">Volver al archivo <span>↗</span></a>
+    <div class="header-actions">
+      <a class="button button--small" href="index.html#gremio">El Gremio</a>
+    </div>
   </header>
 
-  <main>
+  <main id="main">
     <!-- HERO / OBJECT INTRO -->
     <section class="object-hero">
       <div class="hero-meta reveal">
         <span>ARCHIVO / MONEDA</span>
         <span>TT · 001</span>
+        <a class="hero-back" href="index.html#drop">← Volver al Drop #004</a>
       </div>
 
       <div class="hero-stage">
         <div class="hero-image-wrap" data-parallax>
-          <img
-            src="https://www.numismaticamramos.com/_articulos/juan-carlos-i-1-peseta-1988-0001508.jpg"
-            alt="1 peseta española de Juan Carlos I de 1988"
-            class="hero-image"
+          <!-- Encuadre: variables --video-* y --circle-* al inicio de producto.css
+               (o abre producto.html?ajuste para moverlo en vivo) -->
+          <video
+            class="hero-video"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="auto"
+            aria-label="Vídeo de una peseta española de Juan Carlos I de 1988"
           >
+            <source src="https://www.cda1970.es/wp-content/uploads/2026/09/grok-video-fd63a2cb-8803-4fd4-bf5c-2e4d24c93baa.mp4" type="video/mp4">
+            Tu navegador no admite la reproducción de vídeo.
+          </video>
         </div>
 
         <div class="hero-caption reveal">
           <span>01 / 04</span>
+          <button class="video-toggle" id="videoToggle" type="button">Pausar</button>
           <span>Registro visual de referencia</span>
         </div>
       </div>
@@ -88,6 +105,9 @@
         <div class="gallery-track" id="galleryTrack">
           <figure class="gallery-card gallery-card--wide">
             <img
+              loading="lazy"
+              decoding="async"
+              draggable="false"
               src="https://www.numismaticamramos.com/_articulos/juan-carlos-i-1-peseta-1988-0001508.jpg"
               alt="Vista de la 1 peseta de 1988"
             >
@@ -96,6 +116,9 @@
 
           <figure class="gallery-card gallery-card--portrait">
             <img
+              loading="lazy"
+              decoding="async"
+              draggable="false"
               src="https://www.numismaticamramos.com/_articulos/juan-carlos-i-1-peseta-1988-0001508.jpg"
               alt="Detalle ampliado de la moneda"
               class="crop-portrait"
@@ -105,6 +128,9 @@
 
           <figure class="gallery-card gallery-card--dark">
             <img
+              loading="lazy"
+              decoding="async"
+              draggable="false"
               src="https://i.ebayimg.com/images/g/-AAAAOSwV6VfTqG5/s-l1200.jpg"
               alt="1 peseta de 1988 sobre fondo oscuro"
             >
@@ -188,6 +214,9 @@
     <section class="material-section">
       <div class="material-image">
         <img
+          loading="lazy"
+          decoding="async"
+          draggable="false"
           src="https://i.ebayimg.com/images/g/-AAAAOSwV6VfTqG5/s-l1200.jpg"
           alt="Detalle de la superficie de una moneda de una peseta"
           data-parallax
@@ -245,17 +274,24 @@
         El siguiente paso será conectar stock, estado de conservación,
         fotografías propias, procedencia y compra.
       </p>
-      <a href="index.html#drops" class="cta-button reveal">
+      <a href="index.html#drop" class="cta-button reveal">
         Explorar los lotes <span>↗</span>
       </a>
     </section>
   </main>
 
-  <footer class="site-footer">
-    <span>Tesoros del Tiempo</span>
-    <span>Historia fundida.</span>
+  <footer class="footer">
+    <span>© 2026 Tesoros del Tiempo</span>
+    <div>
+      <a href="#">Términos</a>
+      <a href="#">Privacidad</a>
+      <a href="#">Instagram</a>
+      <a href="#">Contacto</a>
+    </div>
+    <span>Forjado en Elche, España.</span>
   </footer>
 
+  <script src="base.js"></script>
   <script src="producto.js"></script>
 </body>
 </html>

@@ -555,6 +555,9 @@ Ese es el puente entre historia, producto y conversión.
 9. Dominio y cuentas sociales.
 10. Analítica.
 
+
+CREAR APP DE IDENTIFICACIÓN DE MONEDAS PARA ENCUENTROS DE CAMPO
+
 Hasta resolverlos, la web debe considerarse **prototipo avanzado / preproducción**, no e-commerce listo para cobrar.
 
 git add .

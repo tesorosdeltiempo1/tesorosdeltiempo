@@ -1,24 +1,26 @@
+/* ═══════════════════════════════════════════════════════════════
+   Tesoros del Tiempo · script.js  (solo home)
+   El reveal, el parallax y el menú móvil viven en base.js.
+   ═══════════════════════════════════════════════════════════════ */
+
+const CONFIG = {
+  // URL que recibe { "email": "..." } por POST cuando alguien pide acceso al Gremio.
+  // Vacía = modo demo: el formulario NO guarda nada y lo dice claramente.
+  // El bloque de envío es genérico: cada proveedor (Brevo, Mailchimp, un
+  // formulario de WordPress…) pide su propio formato y CORS. Ajústalo al elegido.
+  guildEndpoint: ""
+};
+
 document.addEventListener("DOMContentLoaded", () => {
+  /* ── Loader: una vez por sesión ──────────────────────────────
+     El <head> ya lo oculta si se vio antes (clase .loader-seen). */
   const loader = document.getElementById("loader");
-  window.setTimeout(() => loader?.classList.add("is-hidden"), 650);
+  window.setTimeout(() => {
+    if (loader) loader.classList.add("is-hidden");
+    try { sessionStorage.setItem("tt-loader", "1"); } catch (e) { /* modo privado: da igual */ }
+  }, 650);
 
-  // Reveal por scroll
-  const revealItems = document.querySelectorAll(".reveal");
-  if ("IntersectionObserver" in window) {
-    const observer = new IntersectionObserver((entries, obs) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add("is-visible");
-        obs.unobserve(entry.target);
-      });
-    }, { threshold: 0.12, rootMargin: "0px 0px -40px" });
-
-    revealItems.forEach((item) => observer.observe(item));
-  } else {
-    revealItems.forEach((item) => item.classList.add("is-visible"));
-  }
-
-  // Revelado táctil del origen
+  /* ── Revelado táctil del origen ──────────────────────────── */
   document.querySelectorAll(".origin-toggle").forEach((button) => {
     button.addEventListener("click", () => {
       const active = button.classList.toggle("is-origin");
@@ -26,7 +28,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 
-  // Countdown: cambia únicamente el data-drop-date del HTML para cada Drop.
+  /* ── Countdown ───────────────────────────────────────────────
+     Para cada Drop solo hay que cambiar data-drop-date en el HTML. */
   const countdownBar = document.querySelector("[data-drop-date]");
   const countdown = {
     days: document.getElementById("days"),
@@ -40,7 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const target = new Date(countdownBar.dataset.dropDate).getTime();
     const diff = target - Date.now();
 
-    if (diff <= 0) {
+    if (Number.isNaN(target) || diff <= 0) {
       Object.values(countdown).forEach((el) => { if (el) el.textContent = "00"; });
       return;
     }
@@ -58,20 +61,41 @@ document.addEventListener("DOMContentLoaded", () => {
   updateCountdown();
   window.setInterval(updateCountdown, 1000);
 
-  // Formulario: modo demo hasta conectar proveedor de email.
+  /* ── Formulario del Gremio ───────────────────────────────── */
   const form = document.getElementById("guild-form");
   const message = document.getElementById("form-message");
 
-  form?.addEventListener("submit", (event) => {
-    event.preventDefault();
-    const email = new FormData(form).get("email");
+  if (form && message) {
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const email = String(new FormData(form).get("email") || "").trim();
+      if (!email) return;
 
-    if (!email) return;
+      if (!CONFIG.guildEndpoint) {
+        // Honesto con quien lo prueba: sin endpoint no se ha guardado nada.
+        message.textContent = "Modo demo: este correo todavía no se ha guardado.";
+        return;
+      }
 
-    message.textContent = "Solicitud preparada. Conecta aquí tu webhook o proveedor de email.";
-    form.reset();
-  });
+      const submit = form.querySelector("button[type='submit']");
+      if (submit) submit.disabled = true;
+      message.textContent = "Enviando…";
 
-  // Lucide icons, si se usan en futuras iteraciones.
-  if (window.lucide) window.lucide.createIcons();
+      try {
+        const response = await fetch(CONFIG.guildEndpoint, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email })
+        });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+        form.reset();
+        message.textContent = "Listo. Te avisaremos antes de la apertura pública.";
+      } catch (error) {
+        message.textContent = "No hemos podido registrar tu correo. Inténtalo de nuevo en unos minutos.";
+      } finally {
+        if (submit) submit.disabled = false;
+      }
+    });
+  }
 });
